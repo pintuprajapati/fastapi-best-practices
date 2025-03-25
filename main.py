@@ -5,12 +5,18 @@ from fastapi.templating import Jinja2Templates
 from core.config import settings
 import os
 import sys
+from api.routes import router as api_router
+
+SHOW_DOCS_ENVIRONMENT = ("local")  # explicit list of allowed envs
+
+# set url for swagger docs as null if api is not public
+openapi_url="/api/openapi.json" if settings.ENVIRONMENT in SHOW_DOCS_ENVIRONMENT else None
 
 # Initialize FastAPI app
 app = FastAPI(
     title=settings.APP_NAME,
     debug=settings.DEBUG,
-    openapi_url="/api/openapi.json" if settings.ENVIRONMENT == "local" else None
+    openapi_url=openapi_url
 )
 
 # CORS middleware
@@ -28,11 +34,17 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Configure templates
 templates = Jinja2Templates(directory="templates")
 
+########################## Define Routers ########################## 
+module_api_path = "/api/v1"
+app.include_router(api_router, prefix=module_api_path)
+
+########################## WEB UI (HTML) ##########################
 # Home route 
 @app.get("/", name="redirect-home")
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+########################## Main ##########################
 if __name__ == "__main__":
     try:
         import uvicorn
