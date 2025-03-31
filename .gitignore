@@ -71,6 +71,7 @@ Thumbs.db
 
 # Ignore personal/local files directory
 /local_files_dirs/
+.cursorignore
 
 # Other files
 .dockerignore

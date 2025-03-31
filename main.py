@@ -6,7 +6,9 @@ from core.config import settings
 import os
 import sys
 from api.routes import router as api_router
+from genai_stack.routes import router as genai_router
 import custom_log as log
+from utils import create_local_dir
 
 SHOW_DOCS_ENVIRONMENT = ("local")  # explicit list of allowed envs
 
@@ -14,6 +16,8 @@ SHOW_DOCS_ENVIRONMENT = ("local")  # explicit list of allowed envs
 openapi_url="/api/openapi.json" if settings.ENVIRONMENT in SHOW_DOCS_ENVIRONMENT else None
 
 log.set_logger("main", f"\n**************** New log started ****************", action="info")
+
+create_local_dir(settings.UPLOAD_FOLDER)
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -41,7 +45,7 @@ templates = Jinja2Templates(directory="templates")
 ########################## Define Routers ########################## 
 module_api_path = "/api/v1"
 app.include_router(api_router, prefix=module_api_path)
-
+app.include_router(genai_router, prefix=module_api_path)
 
 ########################## WEB UI (HTML) ##########################
 # Home route 
@@ -62,3 +66,4 @@ if __name__ == "__main__":
             sys.exit(0)
         except SystemExit:
             os._exit(0)
+
