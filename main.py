@@ -17,7 +17,7 @@ openapi_url="/api/openapi.json" if settings.ENVIRONMENT in SHOW_DOCS_ENVIRONMENT
 
 log.set_logger("main", f"\n**************** New log started ****************", action="info")
 
-create_local_dir(settings.UPLOAD_FOLDER)
+create_local_dir(settings.STATIC_DIR)
 
 # Initialize FastAPI app
 app = FastAPI(

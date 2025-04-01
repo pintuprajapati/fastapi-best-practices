@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: str
     
     # Document storage
-    UPLOAD_FOLDER: str = os.getenv("UPLOAD_FOLDER", "./uploads")
+    STATIC_DIR: str = os.getenv("STATIC_DIR", "./static")
     MAX_CONTENT_LENGTH: int = int(os.getenv("MAX_CONTENT_LENGTH", "16777216"))  # 16MB
 
     class Config:

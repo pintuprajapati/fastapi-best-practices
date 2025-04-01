@@ -3,6 +3,9 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime
 from enum import Enum
 
+class DocumentProcessRequest(BaseModel):
+    file_url: str
+
 class DocumentStatus(str, Enum):
     PENDING = "pending"
     PROCESSING = "processing"
@@ -14,6 +17,8 @@ class DocumentType(str, Enum):
     DOCX = "docx"
     TXT = "txt"
     OTHER = "other"
+    IMAGE = "image"
+    AUDIO = "audio"
 
 class Document(BaseModel):
     id: Optional[str] = None
